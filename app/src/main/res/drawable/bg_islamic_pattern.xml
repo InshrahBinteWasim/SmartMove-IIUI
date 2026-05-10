@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- A simple geometric star pattern representing Islamic art -->
+    <path
+        android:pathData="M50,10 L60,40 L90,50 L60,60 L50,90 L40,60 L10,50 L40,40 Z"
+        android:strokeWidth="1"
+        android:strokeColor="#1A004D40" />
+    <path
+        android:pathData="M50,0 L55,45 L100,50 L55,55 L50,100 L45,55 L0,50 L45,45 Z"
+        android:strokeWidth="0.5"
+        android:strokeColor="#0D004D40" />
+</vector>
