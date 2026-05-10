@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="120dp"
+    android:viewportWidth="360"
+    android:viewportHeight="120">
+    <!-- Lightweight rect silhouette — evokes campus blocks & Margalla tiers (no raster assets). -->
+    <path
+        android:fillColor="@color/splash_skyline_variant"
+        android:pathData="M0,104 L18,104 L18,76 L34,76 L34,104 L54,104 L54,58 L74,58 L74,104 L94,104 L94,82 L118,82 L118,104 L136,104 L136,62 L154,62 L154,104 L178,104 L178,74 L206,74 L206,104 L228,104 L228,54 L258,54 L258,104 L274,104 L274,72 L294,72 L294,104 L312,104 L312,62 L336,62 L336,104 L360,104 L360,120 L0,120 Z" />
+    <path
+        android:fillColor="@color/splash_skyline_silhouette"
+        android:pathData="M0,108 L26,108 L26,70 L52,70 L52,108 L68,108 L68,92 L94,92 L94,108 L122,108 L122,74 L154,74 L154,108 L180,108 L180,82 L218,82 L218,108 L240,108 L240,60 L274,60 L274,108 L292,108 L292,94 L324,94 L324,108 L360,108 L360,120 L0,120 Z" />
+</vector>

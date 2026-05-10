@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.SmartMoveIIUI" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.SmartMoveIIUI.Onboarding" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/iiui_sheet</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:colorBackground">@color/iiui_sheet</item>
+        <item name="android:windowBackground">@color/iiui_sheet</item>
+    </style>
+
+    <style name="Theme.SmartMoveIIUI.Splash" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/splash_primary</item>
+        <item name="colorOnPrimary">@color/splash_background</item>
+        <item name="colorPrimaryContainer">@color/splash_surface</item>
+        <item name="colorOnPrimaryContainer">@color/splash_primary_dim</item>
+        <item name="colorSurface">@color/splash_surface</item>
+        <item name="colorOnSurface">@color/splash_on_background</item>
+        <item name="android:colorBackground">@color/splash_background</item>
+        <item name="android:windowBackground">@drawable/splash_root_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/splash_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

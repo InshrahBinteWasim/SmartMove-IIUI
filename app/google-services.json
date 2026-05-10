@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "882648498738",
+    "project_id": "smart-move-iiui",
+    "storage_bucket": "smart-move-iiui.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:882648498738:android:2b1a6ef99d40c9bdf1f22b",
+        "android_client_info": {
+          "package_name": "com.example.smartmoveiiui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5LQlPeXHPnSFaT76sGvtvGrHVmAeT2hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">Smart Move IIUI</string>
+    <string name="splash_brand_name">SmartMove</string>
+    <string name="splash_brand_suffix">IIUI</string>
+    <string name="splash_tagline">Real-time bus tracking &amp; student connectivity</string>
+    <string name="splash_cd_emblem">SmartMove logo</string>
+    <string name="splash_cd_loading">Starting SmartMove IIUI</string>
+    <string name="splash_cd_skyline">City skyline illustration</string>
+    <string name="splash_cd_live_bus">Animated campus bus indicator</string>
+
+    <string name="onboarding_welcome_title">Welcome to SmartMove IIUI</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_back">Go back</string>
+    <string name="onboarding_next_continue">Continue</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_eta_sample">ETA ~3 min</string>
+    <string name="onboarding_illustration_campus_badge">IIUI</string>
+    <string name="onboarding_illustration_live_route_label">Live route</string>
+
+    <string name="ob_p0_headline">Smarter journeys across IIUI</string>
+    <string name="ob_p0_body">Built for buses, arrivals, and students on the move — one calm place to see everything that matters campus-wide.</string>
+
+    <string name="ob_p1_headline">Track your bus, live</string>
+    <string name="ob_p1_body">See exactly where every IIUI bus is right now. No more waiting in the dark — know your ETA before you leave your dorm.</string>
+
+    <string name="ob_p2_headline">Stay oriented. Stay on time.</string>
+    <string name="ob_p2_body">From first lecture to last prayer, SmartMove keeps routes, stops, and live ETAs exactly where you need them — clear, calm, and always up to date.</string>
+
+    <string name="ob_feature_gps_title">GPS live tracking</string>
+    <string name="ob_feature_gps_sub">Every bus updates on a tight refresh loop so the map never goes stale.</string>
+    <string name="ob_feature_eta_title">Smart ETA prediction</string>
+    <string name="ob_feature_eta_sub">Accounts for traffic patterns and real route conditions around campus.</string>
+    <string name="ob_feature_routes_title">All routes &amp; stops</string>
+    <string name="ob_feature_routes_sub">Every IIUI campus route mapped with clear, confident wayfinding.</string>
+
+    <string name="cta_already_have_account">Already have an account</string>
+
+    <string name="role_title">Choose your role</string>
+    <string name="role_subtitle">Pick the workspace that matches your IIUI account.</string>
+    <string name="role_commuter">Commuter (student / employee)</string>
+    <string name="role_transport_staff">Transport staff</string>
+    <string name="role_system_administrator">System administrator</string>
+
+    <string name="auth_title">Sign in to SmartMove IIUI</string>
+    <string name="auth_subtitle">Use your IIUI credentials after they are issued by the transport office.</string>
+    <string name="auth_tab_login">Login</string>
+    <string name="auth_tab_signup">Sign up</string>
+    <string name="auth_email">University email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_role_section">Role for this session</string>
+    <string name="auth_sign_in">Sign in</string>
+    <string name="auth_create_account">Create account</string>
+    <string name="auth_mock_hint">Prototype UI — wire Firebase Auth here.</string>
+
+    <string name="home_subtitle_commuter">Commuter</string>
+    <string name="home_subtitle_staff">Transport staff</string>
+    <string name="home_subtitle_admin">Administrator</string>
+    <string name="home_section_title">What would you like to do?</string>
+    <string name="home_open_feature_cd">Open %1$s</string>
+
+    <string name="feat_commuter_live_tracking">Live bus tracking</string>
+    <string name="feat_commuter_live_tracking_sub">Map view for all active campus buses</string>
+    <string name="feat_commuter_schedule">View schedule</string>
+    <string name="feat_commuter_schedule_sub">Routes, stops, and planned timings</string>
+    <string name="feat_commuter_chatbot">Ask the chatbot</string>
+    <string name="feat_commuter_chatbot_sub">Transport Q&amp;A in plain language</string>
+    <string name="feat_commuter_query">Submit a query</string>
+    <string name="feat_commuter_query_sub">Message the transport office</string>
+    <string name="feat_commuter_announcements">View announcements</string>
+    <string name="feat_commuter_announcements_sub">Delays, detours, and notices</string>
+
+    <string name="feat_staff_live_tracking">Live bus tracking</string>
+    <string name="feat_staff_live_tracking_sub">Monitor fleet positions</string>
+    <string name="feat_staff_announcements">Post announcements</string>
+    <string name="feat_staff_announcements_sub">Publish delays and route changes</string>
+    <string name="feat_staff_queries">Manage queries</string>
+    <string name="feat_staff_queries_sub">Reply to commuter messages</string>
+
+    <string name="feat_admin_users">Manage users</string>
+    <string name="feat_admin_users_sub">Create, update, or remove accounts</string>
+    <string name="feat_admin_buses">Manage buses</string>
+    <string name="feat_admin_buses_sub">Fleet registry and status</string>
+    <string name="feat_admin_schedule">Manage schedules</string>
+    <string name="feat_admin_schedule_sub">Assign buses to routes and times</string>
+    <string name="feat_admin_routes">Manage routes</string>
+    <string name="feat_admin_routes_sub">Stops and paths for each route</string>
+    <string name="feat_admin_live_tracking">Live bus tracking</string>
+    <string name="feat_admin_live_tracking_sub">Operational map overview</string>
+
+    <string name="feat_unknown">Feature</string>
+    <string name="feat_unknown_sub">Details will appear here.</string>
+
+    <string name="placeholder_body">This area will load live data from Firestore and maps services in the next implementation phase.</string>
+    <string name="nav_back">Back</string>
+</resources>
