@@ -122,4 +122,10 @@
     <string name="nav_account">Account</string>
     <string name="nav_logout">Logout</string>
     <string name="nav_chatbot">Ask AI Chatbot</string>
+
+    <!-- Google Sign In -->
+    <string name="default_web_client_id">882648498738-207sg700d8t1eumm145tjj691fmpm84h.apps.googleusercontent.com</string>
+    <string name="auth_or_continue">or continue with</string>
+    <string name="auth_google_signin">Sign in with Google</string>
+    <string name="ann_error_loading">Error loading announcements</string>
 </resources>

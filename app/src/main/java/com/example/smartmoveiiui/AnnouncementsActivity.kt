@@ -8,12 +8,14 @@ import com.example.smartmoveiiui.data.model.Announcement
 import com.example.smartmoveiiui.databinding.ActivityAnnouncementsBinding
 import com.example.smartmoveiiui.ui.adapter.AnnouncementAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 
 class AnnouncementsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnnouncementsBinding
     private lateinit var db: FirebaseFirestore
+    private var listener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,33 +29,44 @@ class AnnouncementsActivity : AppCompatActivity() {
         }
 
         setupRecyclerView()
-        fetchAnnouncements()
+        startListeningForAnnouncements()
     }
 
     private fun setupRecyclerView() {
         binding.rvAnnouncements.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun fetchAnnouncements() {
+    private fun startListeningForAnnouncements() {
+        // --- CREDIT SAVING STRATEGY: Snapshot Listeners ---
+        // addSnapshotListener is more efficient than repeated .get() calls.
+        // It also leverages local caching automatically.
         binding.annProgress.visibility = View.VISIBLE
-        db.collection("announcements")
+        listener = db.collection("announcements")
             .whereEqualTo("isPublished", true)
             .orderBy("publishDate", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { documents ->
+            .limit(20) // CREDIT SAVING: Don't load 1000s of old announcements
+            .addSnapshotListener { snapshot, error ->
                 binding.annProgress.visibility = View.GONE
-                val announcementList = documents.toObjects(Announcement::class.java)
-                if (announcementList.isEmpty()) {
+                if (error != null) {
+                    binding.tvNoAnnouncements.text = getString(R.string.ann_error_loading)
                     binding.tvNoAnnouncements.visibility = View.VISIBLE
-                } else {
-                    binding.tvNoAnnouncements.visibility = View.GONE
-                    binding.rvAnnouncements.adapter = AnnouncementAdapter(announcementList)
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null) {
+                    val announcementList = snapshot.toObjects(Announcement::class.java)
+                    if (announcementList.isEmpty()) {
+                        binding.tvNoAnnouncements.visibility = View.VISIBLE
+                    } else {
+                        binding.tvNoAnnouncements.visibility = View.GONE
+                        binding.rvAnnouncements.adapter = AnnouncementAdapter(announcementList)
+                    }
                 }
             }
-            .addOnFailureListener {
-                binding.annProgress.visibility = View.GONE
-                binding.tvNoAnnouncements.text = "Error loading announcements"
-                binding.tvNoAnnouncements.visibility = View.VISIBLE
-            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listener?.remove() // Important to stop listening when activity is destroyed
     }
 }

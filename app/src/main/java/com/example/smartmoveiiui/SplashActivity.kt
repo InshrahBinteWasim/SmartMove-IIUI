@@ -72,8 +72,8 @@ class SplashActivity : AppCompatActivity() {
             busAnimator?.start()
         }
 
-        // Initialize predefined users for testing
-        DatabaseSeeder.seedUsers()
+        // Initialize predefined users and sample data for testing
+        DatabaseSeeder.seedAll(this)
 
         window.decorView.postDelayed(navigateRunnable, splashHoldMs)
     }

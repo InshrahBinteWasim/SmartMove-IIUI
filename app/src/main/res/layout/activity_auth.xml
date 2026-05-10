@@ -127,6 +127,27 @@
                 android:textColor="@color/auth_on_primary"
                 app:cornerRadius="8dp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:text="@string/auth_or_continue"
+                android:textAppearance="?attr/textAppearanceLabelSmall"
+                android:textColor="@color/auth_hint" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_google_signin"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/auth_google_signin"
+                android:textColor="@color/auth_on_surface"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/ic_launcher_foreground"
+                app:iconTint="@color/auth_primary" />
+
             <ProgressBar
                 android:id="@+id/auth_progress"
                 android:layout_width="wrap_content"

@@ -8,11 +8,13 @@ import com.example.smartmoveiiui.data.model.Schedule
 import com.example.smartmoveiiui.databinding.ActivityScheduleBinding
 import com.example.smartmoveiiui.ui.adapter.ScheduleAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class ScheduleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityScheduleBinding
     private lateinit var db: FirebaseFirestore
+    private var listener: ListenerRegistration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,24 +28,30 @@ class ScheduleActivity : AppCompatActivity() {
         }
 
         setupRecyclerView()
-        fetchSchedules()
+        startListeningForSchedules()
     }
 
     private fun setupRecyclerView() {
         binding.rvSchedules.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun fetchSchedules() {
+    private fun startListeningForSchedules() {
+        // --- CREDIT SAVING STRATEGY: Snapshot Listeners + Cache ---
         binding.schProgress.visibility = View.VISIBLE
-        db.collection("schedules")
-            .get()
-            .addOnSuccessListener { documents ->
+        listener = db.collection("schedules")
+            .addSnapshotListener { snapshot, error ->
                 binding.schProgress.visibility = View.GONE
-                val scheduleList = documents.toObjects(Schedule::class.java)
-                binding.rvSchedules.adapter = ScheduleAdapter(scheduleList)
+                if (error != null) return@addSnapshotListener
+
+                if (snapshot != null) {
+                    val scheduleList = snapshot.toObjects(Schedule::class.java)
+                    binding.rvSchedules.adapter = ScheduleAdapter(scheduleList)
+                }
             }
-            .addOnFailureListener {
-                binding.schProgress.visibility = View.GONE
-            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listener?.remove()
     }
 }

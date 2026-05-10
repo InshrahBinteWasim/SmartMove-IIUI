@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toggle = ActionBarDrawerToggle(
             this, binding.drawerLayout, binding.toolbar,
-            R.string.nav_back, R.string.nav_back
+            R.string.nav_back, R.string.nav_back,
         )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()

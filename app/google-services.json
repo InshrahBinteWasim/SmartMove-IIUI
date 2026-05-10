@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "882648498738",
+    "firebase_url": "https://smart-move-iiui-default-rtdb.firebaseio.com",
     "project_id": "smart-move-iiui",
     "storage_bucket": "smart-move-iiui.firebasestorage.app"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.smartmoveiiui"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "882648498738-207sg700d8t1eumm145tjj691fmpm84h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA5LQlPeXHPnSFaT76sGvtvGrHVmAeT2hs"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "882648498738-207sg700d8t1eumm145tjj691fmpm84h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
