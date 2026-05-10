@@ -38,4 +38,22 @@
     <color name="iiui_sheet">#FFFFFDFB</color>
     <color name="iiui_secondary_text">#FF4D6A62</color>
     <color name="iiui_eta_chip">#FFFFB454</color>
+    <color name="auth_primary">#004D40</color>
+    <color name="auth_primary_variant">#00332C</color>
+    <color name="auth_on_primary">#FFFFFF</color>
+    <color name="auth_background">#F5F5F5</color>
+    <color name="auth_surface">#FFFFFF</color>
+    <color name="auth_on_surface">#212121</color>
+    <color name="auth_error">#B00020</color>
+    <color name="auth_hint">#757575</color>
+
+    <!-- Dashboard Colors -->
+    <color name="dashboard_card_bg">#FFFFFF</color>
+    <color name="dashboard_stat_1">#E0F2F1</color> <!-- Active buses -->
+    <color name="dashboard_stat_1_text">#004D40</color>
+    <color name="dashboard_stat_2">#FFF3E0</color> <!-- Queries -->
+    <color name="dashboard_stat_2_text">#E65100</color>
+    <color name="dashboard_stat_3">#FFEBEE</color> <!-- Alerts -->
+    <color name="dashboard_stat_3_text">#B71C1C</color>
+    <color name="dashboard_accent">#00796B</color>
 </resources>

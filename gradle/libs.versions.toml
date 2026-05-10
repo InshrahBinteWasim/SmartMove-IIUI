@@ -19,8 +19,10 @@ material = "1.13.0"
 constraintlayout = "2.2.1"
 appcompat = "1.7.0"
 navigationCompose = "2.8.4"
+playServicesMaps = "20.0.0"
 
 [libraries]
+google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

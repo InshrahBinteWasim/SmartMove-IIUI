@@ -35,13 +35,41 @@
         <activity
             android:name=".AuthActivity"
             android:exported="false"
-            android:theme="@style/Theme.SmartMoveIIUI.Onboarding"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.SmartMoveIIUI" />
+        <activity
+            android:name=".TrackingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".SubmitQueryActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".AnnouncementsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".ScheduleActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".ChatbotActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA5LQlPeXHPnSFaT76sGvtvGrHVmAeT2hs" />
     </application>
 
 </manifest>

@@ -92,4 +92,34 @@
 
     <string name="placeholder_body">This area will load live data from Firestore and maps services in the next implementation phase.</string>
     <string name="nav_back">Back</string>
+    <string name="auth_forgot_password">Forgot password?</string>
+    <string name="auth_email_hint">e.g. name@iiu.edu.pk</string>
+    <string name="auth_email_error">Only @iiu.edu.pk emails are allowed</string>
+    <string name="auth_password_hint">Minimum 8 characters</string>
+    <string name="auth_login_button">Sign in</string>
+    <string name="auth_error_empty">This field cannot be empty</string>
+    <string name="auth_error_invalid_email">Invalid email format</string>
+    <string name="auth_error_wrong_credentials">Incorrect email or password</string>
+    <string name="auth_header_tagline">CAMPUS TRANSPORT HUB</string>
+
+    <!-- Dashboard -->
+    <string name="dash_welcome_back">Welcome back!</string>
+    <string name="dash_signed_as">Signed in as %1$s</string>
+    <string name="dash_last_login">Last login: %1$s</string>
+    <string name="dash_at_a_glance">Today at a glance</string>
+    <string name="dash_active_buses">Active\nbuses</string>
+    <string name="dash_open_queries">Open\nqueries</string>
+    <string name="dash_alerts">Live\nAlerts</string>
+    <string name="dash_go_to_tracking">Go to tracking</string>
+
+    <!-- Nav Drawer -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_tracking">Live Tracking</string>
+    <string name="nav_schedule">Bus Schedule</string>
+    <string name="nav_support">Support</string>
+    <string name="nav_queries">My Queries</string>
+    <string name="nav_announcements">Announcements</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_logout">Logout</string>
+    <string name="nav_chatbot">Ask AI Chatbot</string>
 </resources>
