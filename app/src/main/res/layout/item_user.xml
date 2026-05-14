@@ -19,6 +19,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@string/nav_manage_users"
             android:src="@drawable/ic_launcher_foreground"
             app:tint="@color/auth_primary" />
 
@@ -56,7 +57,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 tools:text="COMMUTER" />
 
         </LinearLayout>

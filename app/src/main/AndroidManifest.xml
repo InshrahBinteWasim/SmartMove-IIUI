@@ -79,6 +79,10 @@
             android:name=".ManageUsersActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".ResolveQueriesActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

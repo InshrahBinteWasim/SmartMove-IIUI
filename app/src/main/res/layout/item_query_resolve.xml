@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="4dp"
-            android:text="Resolve"
+            android:text="@string/query_resolve"
             android:textColor="@color/auth_primary" />
 
     </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.smartmoveiiui.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smartmoveiiui.R
 import com.example.smartmoveiiui.data.model.Query
 import com.example.smartmoveiiui.databinding.ItemQueryResolveBinding
 
@@ -23,7 +24,8 @@ class QueryResolveAdapter(
         holder.binding.tvQueryCategory.text = query.category
         holder.binding.tvQueryDesc.text = query.description
         holder.binding.tvQueryStatus.text = query.status
-        holder.binding.tvQueryUser.text = "From: ${query.commuterId}"
+        val context = holder.itemView.context
+        holder.binding.tvQueryUser.text = context.getString(R.string.query_from, query.commuterId)
         
         holder.binding.btnReply.setOnClickListener {
             onResolveClick(query)

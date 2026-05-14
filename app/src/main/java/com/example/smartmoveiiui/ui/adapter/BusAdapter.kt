@@ -3,6 +3,7 @@ package com.example.smartmoveiiui.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smartmoveiiui.R
 import com.example.smartmoveiiui.data.model.Bus
 import com.example.smartmoveiiui.databinding.ItemBusBinding
 
@@ -20,8 +21,9 @@ class BusAdapter(
 
     override fun onBindViewHolder(holder: BusViewHolder, position: Int) {
         val bus = buses[position]
-        holder.binding.tvBusNumber.text = "Bus # ${bus.busNumber}"
-        holder.binding.tvBusStatus.text = "Status: ${bus.status} • Capacity: ${bus.capacity}"
+        val context = holder.itemView.context
+        holder.binding.tvBusNumber.text = context.getString(R.string.bus_item_number, bus.busNumber)
+        holder.binding.tvBusStatus.text = context.getString(R.string.bus_item_status, bus.status, bus.capacity)
         
         holder.binding.btnEditBus.setOnClickListener {
             onEditClick(bus)

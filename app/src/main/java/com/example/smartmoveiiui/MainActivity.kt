@@ -92,11 +92,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_post_announcement -> {
                 startActivity(Intent(this, PostAnnouncementActivity::class.java))
             }
+            R.id.nav_resolve_queries -> {
+                startActivity(Intent(this, ResolveQueriesActivity::class.java))
+            }
             R.id.nav_manage_buses -> {
                 startActivity(Intent(this, ManageFleetActivity::class.java))
             }
             R.id.nav_manage_users -> {
                 startActivity(Intent(this, ManageUsersActivity::class.java))
+            }
+            R.id.nav_manage_schedules -> {
+                // To be implemented: startActivity(Intent(this, ManageSchedulesActivity::class.java))
+                Toast.makeText(this, "Manage Schedules coming soon", Toast.LENGTH_SHORT).show()
+            }
+            R.id.nav_manage_routes -> {
+                // To be implemented: startActivity(Intent(this, ManageRoutesActivity::class.java))
+                Toast.makeText(this, "Manage Routes coming soon", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_logout -> {
                 auth.signOut()

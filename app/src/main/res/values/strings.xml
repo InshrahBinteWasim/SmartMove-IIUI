@@ -128,6 +128,19 @@
     <string name="nav_administration">Administration</string>
     <string name="nav_manage_fleet">Manage Fleet</string>
     <string name="nav_manage_users">Manage Users</string>
+    <string name="nav_manage_schedules">Manage Schedules</string>
+    <string name="nav_manage_routes">Manage Routes</string>
+    <string name="query_from">From: %1$s</string>
+    <string name="query_resolve">Resolve</string>
+    <string name="post_ann_broadcast">Broadcast Announcement</string>
+    <string name="post_ann_subtitle">Inform students about route changes, delays, or emergency updates.</string>
+    <string name="post_ann_title_hint">Announcement Title</string>
+    <string name="post_ann_desc_hint">Detailed Message</string>
+    <string name="post_ann_priority">Send as high-priority notification</string>
+    <string name="post_ann_btn">Publish Update</string>
+    <string name="fleet_add_bus">Add Bus</string>
+    <string name="bus_item_number">Bus # %1$s</string>
+    <string name="bus_item_status">Status: %1$s • Capacity: %2$d</string>
 
     <!-- Google Sign In -->
     <string name="default_web_client_id">882648498738-207sg700d8t1eumm145tjj691fmpm84h.apps.googleusercontent.com</string>

@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Broadcast Announcement"
+                android:text="@string/post_ann_broadcast"
                 android:textAppearance="?attr/textAppearanceHeadlineSmall"
                 android:textColor="@color/auth_primary"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Inform students about route changes, delays, or emergency updates."
+                android:text="@string/post_ann_subtitle"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="@color/auth_hint" />
 
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:hint="Announcement Title">
+                android:hint="@string/post_ann_title_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ann_title_edit"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Detailed Message">
+                android:hint="@string/post_ann_desc_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/ann_desc_edit"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:checked="true"
-                android:text="Send as high-priority notification" />
+                android:text="@string/post_ann_priority" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_publish"
@@ -100,7 +100,7 @@
                 android:layout_height="56dp"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/auth_primary"
-                android:text="Publish Update"
+                android:text="@string/post_ann_btn"
                 app:cornerRadius="8dp" />
 
             <ProgressBar
