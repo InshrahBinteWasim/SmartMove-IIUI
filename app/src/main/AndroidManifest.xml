@@ -67,6 +67,18 @@
             android:name=".ChatbotActivity"
             android:exported="false"
             android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".PostAnnouncementActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".ManageFleetActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
+        <activity
+            android:name=".ManageUsersActivity"
+            android:exported="false"
+            android:theme="@style/Theme.SmartMoveIIUI.Auth" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

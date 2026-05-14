@@ -56,9 +56,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         binding.tvSignedAs.text = getString(R.string.dash_signed_as, roleFormatted)
         
+        // --- CREDIT SAVING STRATEGY: Role-based UI Filtering ---
+        // Hide sections the user shouldn't see to prevent unnecessary navigation/reads
+        val menu = binding.navView.menu
+        menu.findItem(R.id.nav_group_staff).isVisible = (role == AppRole.TRANSPORT_STAFF || role == AppRole.SYSTEM_ADMINISTRATOR)
+        menu.findItem(R.id.nav_group_admin).isVisible = (role == AppRole.SYSTEM_ADMINISTRATOR)
+
         // Update Nav Header
         val headerView = binding.navView.getHeaderView(0)
         headerView.findViewById<android.widget.TextView>(R.id.nav_user_email).text = email
+        headerView.findViewById<android.widget.TextView>(R.id.nav_user_name).text = roleFormatted
 
         binding.btnGoToTracking.setOnClickListener {
             startActivity(Intent(this, TrackingActivity::class.java))
@@ -81,6 +88,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_chatbot -> {
                 startActivity(Intent(this, ChatbotActivity::class.java))
+            }
+            R.id.nav_post_announcement -> {
+                startActivity(Intent(this, PostAnnouncementActivity::class.java))
+            }
+            R.id.nav_manage_buses -> {
+                startActivity(Intent(this, ManageFleetActivity::class.java))
+            }
+            R.id.nav_manage_users -> {
+                startActivity(Intent(this, ManageUsersActivity::class.java))
             }
             R.id.nav_logout -> {
                 auth.signOut()

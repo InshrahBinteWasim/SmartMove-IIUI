@@ -14,6 +14,7 @@
             android:icon="@drawable/ic_launcher_foreground"
             android:title="@string/nav_schedule" />
     </group>
+
     <item android:title="@string/nav_support">
         <menu>
             <item
@@ -30,6 +31,37 @@
                 android:title="@string/nav_chatbot" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_group_staff"
+        android:title="@string/nav_staff_ops">
+        <menu>
+            <item
+                android:id="@+id/nav_post_announcement"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="@string/nav_post_announcement" />
+            <item
+                android:id="@+id/nav_resolve_queries"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="@string/nav_resolve_queries" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/nav_group_admin"
+        android:title="@string/nav_administration">
+        <menu>
+            <item
+                android:id="@+id/nav_manage_buses"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="@string/nav_manage_fleet" />
+            <item
+                android:id="@+id/nav_manage_users"
+                android:icon="@drawable/ic_launcher_foreground"
+                android:title="@string/nav_manage_users" />
+        </menu>
+    </item>
+
     <item android:title="@string/nav_account">
         <menu>
             <item

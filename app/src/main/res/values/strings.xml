@@ -122,6 +122,12 @@
     <string name="nav_account">Account</string>
     <string name="nav_logout">Logout</string>
     <string name="nav_chatbot">Ask AI Chatbot</string>
+    <string name="nav_staff_ops">Staff Operations</string>
+    <string name="nav_post_announcement">Post Update</string>
+    <string name="nav_resolve_queries">Resolve Queries</string>
+    <string name="nav_administration">Administration</string>
+    <string name="nav_manage_fleet">Manage Fleet</string>
+    <string name="nav_manage_users">Manage Users</string>
 
     <!-- Google Sign In -->
     <string name="default_web_client_id">882648498738-207sg700d8t1eumm145tjj691fmpm84h.apps.googleusercontent.com</string>
