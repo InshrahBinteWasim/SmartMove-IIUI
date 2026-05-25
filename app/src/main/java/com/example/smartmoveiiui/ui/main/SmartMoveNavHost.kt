@@ -13,6 +13,7 @@ import com.example.smartmoveiiui.ui.home.AdminHomeScreen
 import com.example.smartmoveiiui.ui.home.CommuterHomeScreen
 import com.example.smartmoveiiui.ui.home.StaffHomeScreen
 import com.example.smartmoveiiui.ui.placeholder.FeaturePlaceholderScreen
+import com.example.smartmoveiiui.ui.roles.RoleDemoScreen
 
 @Composable
 fun SmartMoveNavHost(
@@ -34,7 +35,11 @@ fun SmartMoveNavHost(
         composable(HomeDestinations.COMMUTER_HOME) {
             CommuterHomeScreen(
                 onNavigateToFeature = { id ->
-                    navController.navigate(HomeDestinations.placeholder(id))
+                    if (id == HomeDestinations.ROLE_SWITCHER) {
+                        navController.navigate(HomeDestinations.ROLE_SWITCHER)
+                    } else {
+                        navController.navigate(HomeDestinations.placeholder(id))
+                    }
                 },
             )
         }
@@ -62,6 +67,21 @@ fun SmartMoveNavHost(
             FeaturePlaceholderScreen(
                 featureId = featureId,
                 onBack = { navController.popBackStack() },
+            )
+        }
+        composable(HomeDestinations.ROLE_SWITCHER) {
+            RoleDemoScreen(
+                onBack = { navController.popBackStack() },
+                onSelectRole = { role ->
+                    val route = when (role) {
+                        AppRole.COMMUTER -> HomeDestinations.COMMUTER_HOME
+                        AppRole.TRANSPORT_STAFF -> HomeDestinations.STAFF_HOME
+                        AppRole.SYSTEM_ADMINISTRATOR -> HomeDestinations.ADMIN_HOME
+                    }
+                    navController.navigate(route) {
+                        popUpTo(navController.graph.startDestinationId)
+                    }
+                },
             )
         }
     }

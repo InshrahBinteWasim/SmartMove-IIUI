@@ -22,11 +22,10 @@
         android:layout_height="64dp"
         android:layout_marginTop="48dp"
         android:contentDescription="@string/splash_cd_emblem"
-        android:src="@drawable/ic_splash_emblem"
+        android:src="@drawable/ic_dept_icons_circle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/auth_on_primary" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/auth_header_title"

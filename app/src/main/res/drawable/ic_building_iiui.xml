@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="200dp"
+    android:viewportWidth="300"
+    android:viewportHeight="200">
+
+    <!-- Main Building Base (Terracotta/Brick) -->
+    <path
+        android:fillColor="#BC6D4D"
+        android:pathData="M30,180 L270,180 L270,60 L240,60 L240,40 L210,40 L210,60 L90,60 L90,40 L60,40 L60,60 L30,60 Z" />
+
+    <!-- Central High Section -->
+    <path
+        android:fillColor="#A0522D"
+        android:pathData="M110,60 L190,60 L190,30 L110,30 Z" />
+
+    <!-- Windows / Arches -->
+    <path
+        android:fillColor="#E1F5EE"
+        android:pathData="M50,80 L80,80 L80,120 L50,120 Z M220,80 L250,80 L250,120 L220,120 Z" />
+
+    <!-- Central Archway -->
+    <path
+        android:fillColor="#085041"
+        android:pathData="M130,180 L170,180 L170,100 Q150,80 130,100 Z" />
+
+    <!-- Roof details -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M30,60 L270,60 M110,30 L190,30" />
+
+</vector>

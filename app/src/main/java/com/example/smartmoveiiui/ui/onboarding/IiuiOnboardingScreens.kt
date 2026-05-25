@@ -5,7 +5,9 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border // Fixed: Added missing import
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +34,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,7 +51,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -65,9 +67,9 @@ import com.example.smartmoveiiui.R
 import kotlinx.coroutines.launch
 
 val IiuiOnboardingColors = lightColorScheme(
-    primary = Color(0xFF103F34),
+    primary = Color(0xFF085041),
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFE4F8EF),
+    primaryContainer = Color(0xFFE1F5EE),
     onPrimaryContainer = Color(0xFF103F34),
     secondary = Color(0xFF23745E),
     onSecondary = Color.White,
@@ -79,6 +81,23 @@ val IiuiOnboardingColors = lightColorScheme(
     onSurface = Color(0xFF122621),
     surfaceVariant = Color(0xFFE5EFEA),
     onSurfaceVariant = Color(0xFF4D645C),
+)
+
+val IiuiOnboardingDarkColors = darkColorScheme(
+    primary = Color(0xFF6BE3BC),
+    onPrimary = Color(0xFF071411),
+    primaryContainer = Color(0xFF123129),
+    onPrimaryContainer = Color(0xFFF3FFFB),
+    secondary = Color(0xFF5DCAA5),
+    onSecondary = Color(0xFF071411),
+    tertiary = Color(0xFFFFB454),
+    onTertiary = Color(0xFF391C00),
+    background = Color(0xFF071411),
+    onBackground = Color(0xFFF3FFFB),
+    surface = Color(0xFF0D201C),
+    onSurface = Color(0xFFF3FFFB),
+    surfaceVariant = Color(0xFF123129),
+    onSurfaceVariant = Color(0xFF9CCABD),
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -93,7 +112,9 @@ fun IiuiOnboardingExperience(
     val pagerState = rememberPagerState(pageCount = { pageCount })
     val scope = rememberCoroutineScope()
 
-    MaterialTheme(colorScheme = IiuiOnboardingColors, typography = Typography()) {
+    val colors = if (isSystemInDarkTheme()) IiuiOnboardingDarkColors else IiuiOnboardingColors
+
+    MaterialTheme(colorScheme = colors, typography = Typography()) {
         Surface(
             color = MaterialTheme.colorScheme.background,
             modifier = modifier.fillMaxSize(),
@@ -394,119 +415,71 @@ private fun FeatureBullet(
 
 @Composable
 private fun WelcomeCampusIllustration(modifier: Modifier = Modifier) {
-    val deep = MaterialTheme.colorScheme.primary
-    val mint = MaterialTheme.colorScheme.secondary
-    val skyTop = Color(0xFFEAF6F1)
-    val skyBot = Color(0xFFC5E2D6)
+    val buildingBase = Color(0xFFBC6D4D) // Terracotta Brick
+    val primaryGreen = MaterialTheme.colorScheme.primary
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(228.dp)
+            .height(260.dp)
             .clip(RoundedCornerShape(28.dp))
-            .background(Brush.verticalGradient(listOf(skyTop, skyBot))),
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFFF7FFFE), Color(0xFFE1F5EE))
+                )
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Canvas(Modifier.fillMaxSize()) {
-            drawCircle(
-                brush = Brush.radialGradient(
-                    colors = listOf(Color(0x66FFB454), Color(0x00FFB454)),
-                    center = Offset(size.width * 0.84f, size.height * 0.2f),
-                    radius = size.minDimension * 0.38f,
-                ),
-                radius = 38.dp.toPx(),
-                center = Offset(size.width * 0.84f, size.height * 0.2f),
-            )
-            drawCircle(
-                color = Color(0xFFFFD699).copy(alpha = 0.55f),
-                radius = 12.dp.toPx(),
-                center = Offset(size.width * 0.84f, size.height * 0.2f),
-            )
-
-            val hill = Path().apply {
-                moveTo(0f, size.height * 0.58f)
-                cubicTo(
-                    size.width * 0.12f,
-                    size.height * 0.42f,
-                    size.width * 0.28f,
-                    size.height * 0.52f,
-                    size.width * 0.42f,
-                    size.height * 0.46f,
-                )
-                cubicTo(
-                    size.width * 0.58f,
-                    size.height * 0.4f,
-                    size.width * 0.72f,
-                    size.height * 0.52f,
-                    size.width,
-                    size.height * 0.44f,
-                )
-                lineTo(size.width, size.height * 0.72f)
-                lineTo(0f, size.height * 0.72f)
-                close()
+            // Background Islamic Pattern (Stylized)
+            val patternStep = 40.dp.toPx()
+            for (x in 0..(size.width / patternStep).toInt()) {
+                for (y in 0..(size.height / patternStep).toInt()) {
+                    drawCircle(
+                        color = primaryGreen.copy(alpha = 0.03f),
+                        radius = 2.dp.toPx(),
+                        center = Offset(x * patternStep, y * patternStep)
+                    )
+                }
             }
-            drawPath(hill, deep.copy(alpha = 0.38f), style = Fill)
+        }
 
-            val b1 = Size(size.width * 0.07f, size.height * 0.22f)
-            drawRoundRect(
-                color = deep.copy(alpha = 0.55f),
-                topLeft = Offset(size.width * 0.1f, size.height * 0.36f),
-                size = b1,
-                cornerRadius = CornerRadius(4.dp.toPx()),
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            // Building Silhouette
+            Image(
+                painter = painterResource(id = R.drawable.ic_building_iiui),
+                contentDescription = null,
+                modifier = Modifier.size(200.dp, 120.dp),
+                contentScale = ContentScale.Fit
             )
-            drawRoundRect(
-                color = deep.copy(alpha = 0.48f),
-                topLeft = Offset(size.width * 0.22f, size.height * 0.32f),
-                size = Size(size.width * 0.09f, size.height * 0.26f),
-                cornerRadius = CornerRadius(4.dp.toPx()),
-            )
-            drawRoundRect(
-                color = deep.copy(alpha = 0.5f),
-                topLeft = Offset(size.width * 0.62f, size.height * 0.34f),
-                size = Size(size.width * 0.08f, size.height * 0.24f),
-                cornerRadius = CornerRadius(4.dp.toPx()),
-            )
+            
+            Spacer(modifier = Modifier.height(16.dp))
 
-            val roadTop = size.height * 0.72f
-            drawRoundRect(
-                color = Color(0xFF0E2A23).copy(alpha = 0.85f),
-                topLeft = Offset(0f, roadTop),
-                size = Size(size.width, size.height - roadTop),
-                cornerRadius = CornerRadius(18.dp.toPx(), 18.dp.toPx()),
-            )
-            val laneY = roadTop + (size.height - roadTop) * 0.42f
-            drawLine(
-                color = Color(0xFF62E090).copy(alpha = 0.45f),
-                start = Offset(size.width * 0.08f, laneY),
-                end = Offset(size.width * 0.92f, laneY),
-                strokeWidth = 3.dp.toPx(),
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(18f, 14f)),
-                cap = StrokeCap.Round,
+            // Department Icons Circle
+            Image(
+                painter = painterResource(id = R.drawable.ic_dept_icons_circle),
+                contentDescription = null,
+                modifier = Modifier.size(100.dp)
             )
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_onboarding_bus),
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .offset(y = (-12).dp)
-                .size(width = 112.dp, height = 72.dp),
-        )
-
+        // Glass ID Badge
         Box(
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(start = 16.dp, top = 14.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(Color.White.copy(alpha = 0.88f))
-                .padding(horizontal = 10.dp, vertical = 6.dp),
+                .padding(16.dp)
+                .background(Color.White.copy(alpha = 0.6f), RoundedCornerShape(12.dp))
+                .border(0.5.dp, primaryGreen.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
+                .padding(horizontal = 12.dp, vertical = 6.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.onboarding_illustration_campus_badge),
+                text = "DIRECTORATE",
                 style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.Bold,
-                color = mint,
+                color = primaryGreen,
+                fontWeight = FontWeight.Bold
             )
         }
     }

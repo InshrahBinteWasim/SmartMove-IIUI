@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Outer Circle -->
+    <path
+        android:fillColor="#1A5DCAA5"
+        android:pathData="M60,60m-58,0a58,58 0,1 1,116 0a58,58 0,1 1,-116 0" />
+    <path
+        android:strokeColor="#5DCAA5"
+        android:strokeWidth="1"
+        android:pathData="M60,60m-58,0a58,58 0,1 1,116 0a58,58 0,1 1,-116 0" />
+
+    <!-- Divided Lines -->
+    <path
+        android:strokeColor="#5DCAA5"
+        android:strokeWidth="0.5"
+        android:pathData="M60,2 L60,118 M2,60 L118,60" />
+
+    <!-- Icon 1: Clock (Top Left) -->
+    <path
+        android:fillColor="#085041"
+        android:pathData="M35,35m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M35,35 L35,30 M35,35 L40,35" />
+
+    <!-- Icon 2: Map Pin (Top Right) -->
+    <path
+        android:fillColor="#085041"
+        android:pathData="M85,35c0,-6.63 -5.37,-12 -12,-12s-12,5.37 -12,12c0,9 12,22 12,22s12,-13 12,-22z M85,35m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+
+    <!-- Icon 3: Bus (Bottom Left) -->
+    <path
+        android:fillColor="#085041"
+        android:pathData="M35,85m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,82h10v4h-10z M32,88h1v1h-1z M37,88h1v1h-1z" />
+
+    <!-- Icon 4: Route (Bottom Right) -->
+    <path
+        android:fillColor="#085041"
+        android:pathData="M85,85m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M80,82h10 M80,85h10 M80,88h10" />
+
+</vector>

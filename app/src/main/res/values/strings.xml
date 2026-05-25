@@ -8,6 +8,10 @@
     <string name="splash_cd_skyline">City skyline illustration</string>
     <string name="splash_cd_live_bus">Animated campus bus indicator</string>
 
+    <string name="splash_system_status">System Status: Online</string>
+    <string name="splash_tagline_full">BUILT FOR BUSES, ARRIVALS, AND STUDENTS</string>
+    <string name="splash_dept_name">DIRECTORATE OF TRANSPORT</string>
+
     <string name="onboarding_welcome_title">Welcome to SmartMove IIUI</string>
     <string name="onboarding_skip">Skip</string>
     <string name="onboarding_back">Go back</string>
@@ -18,13 +22,13 @@
     <string name="onboarding_illustration_live_route_label">Live route</string>
 
     <string name="ob_p0_headline">Smarter journeys across IIUI</string>
-    <string name="ob_p0_body">Built for buses, arrivals, and students on the move — one calm place to see everything that matters campus-wide.</string>
+    <string name="ob_p0_body">Built for buses, arrivals, and students on the move - one calm place to see everything that matters campus-wide.</string>
 
     <string name="ob_p1_headline">Track your bus, live</string>
-    <string name="ob_p1_body">See exactly where every IIUI bus is right now. No more waiting in the dark — know your ETA before you leave your dorm.</string>
+    <string name="ob_p1_body">See exactly where every IIUI bus is right now. No more waiting in the dark - know your ETA before you leave your dorm.</string>
 
     <string name="ob_p2_headline">Stay oriented. Stay on time.</string>
-    <string name="ob_p2_body">From first lecture to last prayer, SmartMove keeps routes, stops, and live ETAs exactly where you need them — clear, calm, and always up to date.</string>
+    <string name="ob_p2_body">From first lecture to last prayer, SmartMove keeps routes, stops, and live ETAs exactly where you need them - clear, calm, and always up to date.</string>
 
     <string name="ob_feature_gps_title">GPS live tracking</string>
     <string name="ob_feature_gps_sub">Every bus updates on a tight refresh loop so the map never goes stale.</string>
@@ -50,7 +54,7 @@
     <string name="auth_role_section">Role for this session</string>
     <string name="auth_sign_in">Sign in</string>
     <string name="auth_create_account">Create account</string>
-    <string name="auth_mock_hint">Prototype UI — wire Firebase Auth here.</string>
+    <string name="auth_mock_hint">Prototype UI - wire Firebase Auth here.</string>
 
     <string name="home_subtitle_commuter">Commuter</string>
     <string name="home_subtitle_staff">Transport staff</string>
@@ -58,23 +62,47 @@
     <string name="home_section_title">What would you like to do?</string>
     <string name="home_open_feature_cd">Open %1$s</string>
 
+    <string name="feat_role_switcher">Demo role switcher</string>
+    <string name="feat_role_switcher_sub">Open student, staff, or admin dashboards</string>
     <string name="feat_commuter_live_tracking">Live bus tracking</string>
     <string name="feat_commuter_live_tracking_sub">Map view for all active campus buses</string>
+    <string name="feat_commuter_route_detail">Route detail</string>
+    <string name="feat_commuter_route_detail_sub">Stops, driver, ETA, and route actions</string>
     <string name="feat_commuter_schedule">View schedule</string>
     <string name="feat_commuter_schedule_sub">Routes, stops, and planned timings</string>
+    <string name="feat_commuter_schedule_detail">Schedule detail</string>
+    <string name="feat_commuter_schedule_detail_sub">Compare trip slots and countdowns</string>
     <string name="feat_commuter_chatbot">Ask the chatbot</string>
     <string name="feat_commuter_chatbot_sub">Transport Q&amp;A in plain language</string>
     <string name="feat_commuter_query">Submit a query</string>
     <string name="feat_commuter_query_sub">Message the transport office</string>
+    <string name="feat_commuter_my_queries">My queries</string>
+    <string name="feat_commuter_my_queries_sub">Track replies, status, and resolution</string>
     <string name="feat_commuter_announcements">View announcements</string>
     <string name="feat_commuter_announcements_sub">Delays, detours, and notices</string>
+    <string name="feat_commuter_notifications">Notifications inbox</string>
+    <string name="feat_commuter_notifications_sub">Alerts, GPS reminders, and settings</string>
+    <string name="feat_commuter_notification_settings">Notification settings</string>
+    <string name="feat_commuter_notification_settings_sub">Control alert types and quiet hours</string>
+    <string name="feat_commuter_favorites">Favorite routes</string>
+    <string name="feat_commuter_favorites_sub">Saved stops, routes, and quick ETAs</string>
+    <string name="feat_commuter_profile">Profile and settings</string>
+    <string name="feat_commuter_profile_sub">Account, language, theme, and privacy</string>
+    <string name="feat_commuter_feedback">Feedback and ratings</string>
+    <string name="feat_commuter_feedback_sub">Rate trips and improve transport service</string>
 
     <string name="feat_staff_live_tracking">Live bus tracking</string>
     <string name="feat_staff_live_tracking_sub">Monitor fleet positions</string>
+    <string name="feat_staff_live_monitor">Live bus monitor</string>
+    <string name="feat_staff_live_monitor_sub">Operational fleet health and GPS alerts</string>
     <string name="feat_staff_announcements">Post announcements</string>
     <string name="feat_staff_announcements_sub">Publish delays and route changes</string>
+    <string name="feat_staff_announcement_history">Announcement history</string>
+    <string name="feat_staff_announcement_history_sub">Review sent notices and delivery status</string>
     <string name="feat_staff_queries">Manage queries</string>
     <string name="feat_staff_queries_sub">Reply to commuter messages</string>
+    <string name="feat_staff_profile">Staff profile</string>
+    <string name="feat_staff_profile_sub">Duty status, assigned buses, and account</string>
 
     <string name="feat_admin_users">Manage users</string>
     <string name="feat_admin_users_sub">Create, update, or remove accounts</string>
@@ -86,6 +114,10 @@
     <string name="feat_admin_routes_sub">Stops and paths for each route</string>
     <string name="feat_admin_live_tracking">Live bus tracking</string>
     <string name="feat_admin_live_tracking_sub">Operational map overview</string>
+    <string name="feat_admin_reports_logs">System reports</string>
+    <string name="feat_admin_reports_logs_sub">Analytics, exports, and transport health</string>
+    <string name="feat_admin_audit_logs">Audit logs</string>
+    <string name="feat_admin_audit_logs_sub">Trace admin changes and security events</string>
 
     <string name="feat_unknown">Feature</string>
     <string name="feat_unknown_sub">Details will appear here.</string>
@@ -140,7 +172,7 @@
     <string name="post_ann_btn">Publish Update</string>
     <string name="fleet_add_bus">Add Bus</string>
     <string name="bus_item_number">Bus # %1$s</string>
-    <string name="bus_item_status">Status: %1$s • Capacity: %2$d</string>
+    <string name="bus_item_status">Status: %1$s - Capacity: %2$d</string>
 
     <!-- Google Sign In -->
     <string name="default_web_client_id">882648498738-207sg700d8t1eumm145tjj691fmpm84h.apps.googleusercontent.com</string>

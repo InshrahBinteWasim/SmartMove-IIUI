@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="iiui_terracotta_brick">#CD853F</color>
+    <color name="text_secondary">#595959</color>
+    <color name="iiui_accent_blue">#00BFFF</color>
+    <color name="iiui_brick_shadow">#8B4513</color>
+
+    <color name="iiui_bus_primary">#085041</color>
+    <color name="iiui_bus_window">#AEEEEE</color>
+    <color name="iiui_flower_pink">#FF69B4</color>
+    <color name="iiui_flower_gold">#FFD700</color>
+
+    <color name="splash_progress_track">#E0E0E0</color>
+    <color name="splash_progress_fill">#085041</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -8,52 +21,59 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- IIUI / Splash — teal–green (reference + M3-compatible) -->
-    <color name="splash_background">#FF071B15</color>
-    <color name="splash_bg_start">#FF061912</color>
-    <color name="splash_bg_mid">#FF0F2E26</color>
-    <color name="splash_bg_end">#FF154A3D</color>
+    <color name="primary_deep">#085041</color>
+    <color name="primary">#0F6E56</color>
+    <color name="primary_light">#E1F5EE</color>
+    <color name="background">#F7FFFE</color>
+    <color name="text_primary">#122621</color>
+    <color name="text_tertiary">#757575</color>
+    <color name="accent_teal">#5DCAA5</color>
+    <color name="warning_amber">#FFB454</color>
+
+    <color name="splash_background">#085041</color>
+    <color name="splash_bg_start">#085041</color>
+    <color name="splash_bg_mid">#0F6E56</color>
+    <color name="splash_bg_end">#063D32</color>
     <color name="splash_atmosphere_glow">#221A5C4A</color>
     <color name="splash_surface">#FF0F2E24</color>
-    <color name="splash_surface_bright">#FF16362B</color>
+    <color name="splash_surface_bright">#F7FFFE</color>
     <color name="splash_primary">#FF62E090</color>
-    <color name="splash_primary_dim">#FF2FBF71</color>
+    <color name="splash_primary_dim">#1A0F6E56</color>
     <color name="splash_on_background">#FFF4FBF7</color>
     <color name="splash_on_background_muted">#CCDBEADF</color>
-    <color name="splash_outline">#FF2F5244</color>
-    <color name="splash_glow">#3362E090</color>
-    <color name="splash_emblem_outer">#FF0F3D30</color>
-    <color name="splash_emblem_mid">#FF1F5E4A</color>
-    <color name="splash_emblem_inner">#FFB8F6D8</color>
-    <color name="splash_emblem_icon">#FF062219</color>
-    <color name="splash_progress_dot_muted">#592FBF71</color>
+    <color name="splash_outline">#1AFFFFFF</color>
+    <color name="splash_glow">#335DCAA5</color>
+    <color name="splash_emblem_outer">#E1F5EE</color>
+    <color name="splash_emblem_mid">#0F6E56</color>
+    <color name="splash_emblem_inner">#085041</color>
+    <color name="splash_emblem_icon">#FFFFFFFF</color>
+    <color name="splash_progress_dot_muted">#4DFFFFFF</color>
     <color name="splash_road_line">#FF173D32</color>
-    <color name="splash_skyline_silhouette">#FF0E2F28</color>
-    <color name="splash_skyline_variant">#FF143C33</color>
+    <color name="splash_skyline_silhouette">#0D000000</color>
+    <color name="splash_skyline_variant">#1AFFFFFF</color>
 
-    <!-- Onboarding — light shell -->
-    <color name="iiui_deep_green">#FF0F3F32</color>
+    <color name="iiui_deep_green">#085041</color>
     <color name="iiui_moss">#FF1F6F58</color>
     <color name="iiui_mint_highlight">#FF8FE9C9</color>
     <color name="iiui_sheet">#FFFFFDFB</color>
     <color name="iiui_secondary_text">#FF4D6A62</color>
     <color name="iiui_eta_chip">#FFFFB454</color>
-    <color name="auth_primary">#004D40</color>
+
+    <color name="auth_primary">#0F6E56</color>
     <color name="auth_primary_variant">#00332C</color>
     <color name="auth_on_primary">#FFFFFF</color>
-    <color name="auth_background">#F5F5F5</color>
+    <color name="auth_background">#F7FFFE</color>
     <color name="auth_surface">#FFFFFF</color>
-    <color name="auth_on_surface">#212121</color>
+    <color name="auth_on_surface">#122621</color>
     <color name="auth_error">#B00020</color>
     <color name="auth_hint">#757575</color>
 
-    <!-- Dashboard Colors -->
     <color name="dashboard_card_bg">#FFFFFF</color>
-    <color name="dashboard_stat_1">#E0F2F1</color> <!-- Active buses -->
-    <color name="dashboard_stat_1_text">#004D40</color>
-    <color name="dashboard_stat_2">#FFF3E0</color> <!-- Queries -->
-    <color name="dashboard_stat_2_text">#E65100</color>
-    <color name="dashboard_stat_3">#FFEBEE</color> <!-- Alerts -->
-    <color name="dashboard_stat_3_text">#B71C1C</color>
+    <color name="dashboard_stat_1">#0F6E56</color>
+    <color name="dashboard_stat_1_text">#FFFFFF</color>
+    <color name="dashboard_stat_2">#FFB454</color>
+    <color name="dashboard_stat_2_text">#FFFFFF</color>
+    <color name="dashboard_stat_3">#5DCAA5</color>
+    <color name="dashboard_stat_3_text">#FFFFFF</color>
     <color name="dashboard_accent">#00796B</color>
 </resources>

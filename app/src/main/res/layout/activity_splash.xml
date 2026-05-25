@@ -1,180 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_root_background"
-    android:fitsSystemWindows="true"
-    tools:context=".SplashActivity">
+    android:background="@color/background">
 
-    <LinearLayout
-        android:id="@+id/splash_content"
-        android:layout_width="0dp"
+    <!-- Islamic Pattern Watermark -->
+    <ImageView
+        android:id="@+id/img_pattern"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.08"
+        android:scaleType="center"
+        android:src="@drawable/bg_islamic_pattern" />
+
+    <!-- Top Left Blinking Dot (System Status) -->
+    <View
+        android:id="@+id/view_status_dot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/splash_dot_bright"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layoutAnimation="@anim/splash_layout_fade_in"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingHorizontal="@dimen/splash_horizontal_padding"
-        app:layout_constraintBottom_toTopOf="@+id/splash_bottom_scene"
+        android:layout_marginStart="8dp"
+        android:text="@string/splash_system_status"
+        android:textColor="@color/primary"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_status_dot"
+        app:layout_constraintStart_toEndOf="@+id/view_status_dot"
+        app:layout_constraintTop_toTopOf="@+id/view_status_dot" />
+
+    <!-- Building Illustration -->
+    <ImageView
+        android:id="@+id/img_building"
+        android:layout_width="320dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/ic_building_iiui"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.40">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/splash_emblem"
-            android:layout_width="168dp"
-            android:layout_height="168dp"
-            android:contentDescription="@string/splash_cd_emblem"
-            app:srcCompat="@drawable/ic_splash_emblem" />
+    <!-- Green Bus -->
+    <ImageView
+        android:id="@+id/img_bus"
+        android:layout_width="280dp"
+        android:layout_height="140dp"
+        android:src="@drawable/ic_bus_green"
+        app:layout_constraintBottom_toBottomOf="@+id/img_building"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_building"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <!-- App Name & Department -->
+    <LinearLayout
+        android:id="@+id/layout_branding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_bus">
 
         <TextView
-            android:id="@+id/splash_title_primary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:fontFamily="serif"
-            android:includeFontPadding="false"
-            android:letterSpacing="0.02"
-            android:text="@string/splash_brand_name"
-            android:textAppearance="?attr/textAppearanceDisplaySmall"
-            android:textColor="@color/splash_on_background"
-            tools:ignore="SpUsage" />
+            android:text="SmartMove IIUI"
+            android:textColor="@color/text_primary"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/splash_title_suffix"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.28"
-            android:text="@string/splash_brand_suffix"
-            android:textAllCaps="true"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textColor="@color/splash_primary"
-            tools:ignore="SpUsage" />
-
-        <TextView
-            android:id="@+id/splash_tagline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:alpha="0.94"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1.12"
-            android:text="@string/splash_tagline"
-            android:textAppearance="?attr/textAppearanceBodyLarge"
-            android:textColor="@color/splash_on_background_muted"
-            tools:ignore="SpUsage" />
-
-        <LinearLayout
-            android:id="@+id/splash_progress_row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <FrameLayout
-                android:id="@+id/splash_progress_track"
-                android:layout_width="0dp"
-                android:layout_height="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/splash_progress_track"
-                android:importantForAccessibility="yes"
-                android:contentDescription="@string/splash_cd_loading">
-
-                <View
-                    android:id="@+id/splash_progress_fill"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/splash_progress_fill" />
-            </FrameLayout>
-
-            <View
-                android:layout_width="14dp"
-                android:layout_height="4dp"
-                android:layout_marginStart="12dp"
-                android:background="@drawable/splash_mini_dash" />
-
-            <View
-                android:layout_width="7dp"
-                android:layout_height="7dp"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/splash_dot_bright"
-                android:alpha="0.55" />
-
-            <View
-                android:layout_width="7dp"
-                android:layout_height="7dp"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/splash_dot_muted" />
-
-            <View
-                android:layout_width="7dp"
-                android:layout_height="7dp"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/splash_dot_muted" />
-        </LinearLayout>
+            android:letterSpacing="0.1"
+            android:text="@string/splash_dept_name"
+            android:textColor="@color/primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Bottom skyline + roadway + live bus silhouette (vectors only). -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/splash_bottom_scene"
-        android:layout_width="0dp"
+    <!-- Department Icons Circle -->
+    <ImageView
+        android:id="@+id/img_dept_icons"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_dept_icons_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_branding" />
+
+    <!-- Bottom Tagline -->
+    <TextView
+        android:id="@+id/tv_tagline"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="6dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="@string/splash_tagline_full"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_dept_icons" />
+
+    <!-- Skyline Silhouette at Bottom -->
+    <ImageView
+        android:id="@+id/img_skyline"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:alpha="0.5"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_skyline_city"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Small Bus on Skyline -->
+    <ImageView
+        android:id="@+id/img_mini_bus"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/ic_splash_mini_bus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Progress Indicator -->
+    <ProgressBar
+        android:id="@+id/splash_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="160dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="40dp"
+        android:progressDrawable="@drawable/splash_progress_track"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/splash_skyline"
-            android:layout_width="0dp"
-            android:layout_height="112dp"
-            android:contentDescription="@string/splash_cd_skyline"
-            android:importantForAccessibility="no"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toTopOf="@+id/splash_road"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/splash_skyline_city" />
-
-        <View
-            android:id="@+id/splash_road"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_marginHorizontal="28dp"
-            android:layout_marginBottom="4dp"
-            android:alpha="0.85"
-            android:background="@color/splash_road_line"
-            app:layout_constraintBottom_toTopOf="@+id/splash_bus_lane"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/splash_bus_lane"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/splash_bus_lane_height"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="10dp"
-            android:clipChildren="false"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <ImageView
-                android:id="@+id/splash_mini_bus"
-                android:layout_width="@dimen/splash_moving_bus_width"
-                android:layout_height="@dimen/splash_moving_bus_height"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/splash_cd_live_bus"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_splash_mini_bus" />
-        </FrameLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

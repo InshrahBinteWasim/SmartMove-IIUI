@@ -3,17 +3,18 @@ package com.example.smartmoveiiui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.example.smartmoveiiui.data.model.User
-import com.example.smartmoveiiui.databinding.ActivityAuthBinding
 import com.example.smartmoveiiui.model.AppRole
+import com.example.smartmoveiiui.ui.auth.SmartMoveLoginScreen
+import com.example.smartmoveiiui.ui.theme.SmartMoveIIUITheme
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -21,73 +22,48 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : ComponentActivity() {
 
-    private lateinit var binding: ActivityAuthBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAuthBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        binding.authLoginButton.setOnClickListener {
-            performLogin()
-        }
-
-        binding.btnGoogleSignin.setOnClickListener {
-            signInWithGoogle()
-        }
-
-        binding.authForgotPasswordText.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        setContent {
+            SmartMoveIIUITheme {
+                SmartMoveLoginScreen(
+                    onLogin = ::performLogin,
+                    onGoogleSignIn = ::signInWithGoogle,
+                    onForgotPassword = {
+                        startActivity(Intent(this, ForgotPasswordActivity::class.java))
+                    },
+                    onDemoSuccess = {
+                        navigateToMain(AppRole.COMMUTER.name)
+                    }
+                )
+            }
         }
     }
 
-    private fun performLogin() {
-        val email = binding.authEmailEdit.text.toString().trim()
-        val password = binding.authPasswordEdit.text.toString().trim()
-
-        var hasError = false
-
-        if (email.isEmpty()) {
-            binding.authEmailLayout.error = getString(R.string.auth_error_empty)
-            hasError = true
-        } else if (!email.endsWith("@iiu.edu.pk") && email != "maryam.bsse4526@gmail.com") {
-            binding.authEmailLayout.error = getString(R.string.auth_email_error)
-            hasError = true
-        } else {
-            binding.authEmailLayout.error = null
-        }
-
-        if (password.isEmpty()) {
-            binding.authPasswordLayout.error = getString(R.string.auth_error_empty)
-            hasError = true
-        } else if (password.length < 8) {
-            binding.authPasswordLayout.error = getString(R.string.auth_password_hint)
-            hasError = true
-        } else {
-            binding.authPasswordLayout.error = null
-        }
-
-        if (hasError) return
-
-        binding.authProgress.visibility = View.VISIBLE
-        binding.authLoginButton.isEnabled = false
-
+    private fun performLogin(
+        email: String,
+        password: String,
+        onLoading: (Boolean) -> Unit,
+        onSuccess: () -> Unit,
+        onError: (String, Boolean) -> Unit
+    ) {
+        onLoading(true)
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    fetchUserRoleAndNavigate(auth.currentUser?.uid ?: "")
+                    fetchUserRoleAndNavigate(auth.currentUser?.uid ?: "", onSuccess, onError)
                 } else {
-                    binding.authProgress.visibility = View.GONE
-                    binding.authLoginButton.isEnabled = true
-                    Toast.makeText(baseContext, getString(R.string.auth_error_wrong_credentials),
-                        Toast.LENGTH_SHORT).show()
+                    onLoading(false)
+                    onError(getString(R.string.auth_error_wrong_credentials), true)
                 }
             }
     }
@@ -121,7 +97,6 @@ class AuthActivity : AppCompatActivity() {
             val googleIdToken = credential.idToken
             val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
             
-            binding.authProgress.visibility = View.VISIBLE
             auth.signInWithCredential(firebaseCredential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -130,7 +105,6 @@ class AuthActivity : AppCompatActivity() {
                             checkAndCreateGoogleUser(it.uid, it.email ?: "", it.displayName ?: "User")
                         }
                     } else {
-                        binding.authProgress.visibility = View.GONE
                         Toast.makeText(this, "Firebase auth failed", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -151,16 +125,21 @@ class AuthActivity : AppCompatActivity() {
             }
     }
 
-    private fun fetchUserRoleAndNavigate(uid: String) {
+    private fun fetchUserRoleAndNavigate(
+        uid: String,
+        onSuccess: () -> Unit,
+        onError: (String, Boolean) -> Unit
+    ) {
         // --- CREDIT SAVING STRATEGY: Targeted Fetch ---
         db.collection("users").document(uid).get()
             .addOnSuccessListener { document ->
-                binding.authProgress.visibility = View.GONE
                 val role = document.getString("role") ?: AppRole.COMMUTER.name
+                onSuccess()
                 navigateToMain(role)
             }
             .addOnFailureListener {
-                binding.authProgress.visibility = View.GONE
+                onError("Profile lookup failed. Opening commuter workspace.", false)
+                onSuccess()
                 navigateToMain(AppRole.COMMUTER.name)
             }
     }

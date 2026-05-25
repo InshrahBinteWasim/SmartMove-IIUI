@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F7FFFE" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/bg_islamic_pattern"
+            android:tileMode="repeat"
+            android:alpha="0.04"
+            android:gravity="center" />
+    </item>
+    <item>
+        <gradient
+            android:startColor="#00000000"
+            android:endColor="#08085041"
+            android:angle="270" />
+    </item>
+</layer-list>

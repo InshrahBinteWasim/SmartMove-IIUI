@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="260dp"
+    android:height="120dp"
+    android:viewportWidth="260"
+    android:viewportHeight="120">
+
+    <!-- Bus Body -->
+    <path
+        android:fillColor="#085041"
+        android:pathData="M20,20 L240,20 Q250,20 250,30 L250,90 Q250,100 240,100 L20,100 Q10,100 10,90 L10,30 Q10,20 20,20 Z" />
+
+    <!-- Windows -->
+    <path
+        android:fillColor="#E1F5EE"
+        android:pathData="M25,25 L60,25 L60,50 L25,50 Z M70,25 L105,25 L105,50 L70,50 Z M115,25 L150,25 L150,50 L115,50 Z M160,25 L195,25 L195,50 L160,50 Z M205,25 L240,25 L240,50 L205,50 Z" />
+
+    <!-- Front Window -->
+    <path
+        android:fillColor="#E1F5EE"
+        android:pathData="M15,25 L20,25 L20,90 L15,90 Z" />
+
+    <!-- Wheels -->
+    <path
+        android:fillColor="#1D1D1D"
+        android:pathData="M50,100 m-10,0 a10,10 0,1 1,20 0 a10,10 0,1 1,-20 0 M210,100 m-10,0 a10,10 0,1 1,20 0 a10,10 0,1 1,-20 0" />
+    <path
+        android:fillColor="#9E9E9E"
+        android:pathData="M50,100 m-4,0 a4,4 0,1 1,8 0 a4,4 0,1 1,-8 0 M210,100 m-4,0 a4,4 0,1 1,8 0 a4,4 0,1 1,-8 0" />
+
+    <!-- Details -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M20,60 L240,60" />
+
+</vector>

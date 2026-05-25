@@ -15,24 +15,26 @@
         <item name="android:windowBackground">@color/iiui_sheet</item>
     </style>
 
-    <style name="Theme.SmartMoveIIUI.Splash" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/splash_primary</item>
-        <item name="colorOnPrimary">@color/splash_background</item>
-        <item name="colorPrimaryContainer">@color/splash_surface</item>
-        <item name="colorOnPrimaryContainer">@color/splash_primary_dim</item>
-        <item name="colorSurface">@color/splash_surface</item>
-        <item name="colorOnSurface">@color/splash_on_background</item>
-        <item name="android:colorBackground">@color/splash_background</item>
-        <item name="android:windowBackground">@drawable/splash_root_background</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/splash_background</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
+    <style name="Theme.SmartMoveIIUI.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
     <style name="Theme.SmartMoveIIUI.Auth" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/auth_primary</item>
         <item name="colorOnPrimary">@color/auth_on_primary</item>
         <item name="android:statusBarColor">@color/auth_primary</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
+
+    <style name="TextAppearance.SmartMove.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+    </style>
+
+    <style name="Widget.SmartMove.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/primary</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
 </resources>
