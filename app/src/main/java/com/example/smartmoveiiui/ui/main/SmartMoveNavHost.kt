@@ -9,6 +9,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.smartmoveiiui.model.AppRole
 import com.example.smartmoveiiui.navigation.HomeDestinations
+import com.example.smartmoveiiui.navigation.FeatureCatalog
+import com.example.smartmoveiiui.ui.chat.MoveBotChatScreen
 import com.example.smartmoveiiui.ui.home.AdminHomeScreen
 import com.example.smartmoveiiui.ui.home.CommuterHomeScreen
 import com.example.smartmoveiiui.ui.home.StaffHomeScreen
@@ -18,6 +20,8 @@ import com.example.smartmoveiiui.ui.roles.RoleDemoScreen
 @Composable
 fun SmartMoveNavHost(
     appRole: AppRole,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
@@ -34,6 +38,8 @@ fun SmartMoveNavHost(
     ) {
         composable(HomeDestinations.COMMUTER_HOME) {
             CommuterHomeScreen(
+                isDarkTheme = isDarkTheme,
+                onToggleTheme = onToggleTheme,
                 onNavigateToFeature = { id ->
                     if (id == HomeDestinations.ROLE_SWITCHER) {
                         navController.navigate(HomeDestinations.ROLE_SWITCHER)
@@ -45,6 +51,8 @@ fun SmartMoveNavHost(
         }
         composable(HomeDestinations.STAFF_HOME) {
             StaffHomeScreen(
+                isDarkTheme = isDarkTheme,
+                onToggleTheme = onToggleTheme,
                 onNavigateToFeature = { id ->
                     navController.navigate(HomeDestinations.placeholder(id))
                 },
@@ -52,6 +60,8 @@ fun SmartMoveNavHost(
         }
         composable(HomeDestinations.ADMIN_HOME) {
             AdminHomeScreen(
+                isDarkTheme = isDarkTheme,
+                onToggleTheme = onToggleTheme,
                 onNavigateToFeature = { id ->
                     navController.navigate(HomeDestinations.placeholder(id))
                 },
@@ -64,10 +74,20 @@ fun SmartMoveNavHost(
             ),
         ) { entry ->
             val featureId = entry.arguments?.getString("featureId").orEmpty()
-            FeaturePlaceholderScreen(
-                featureId = featureId,
-                onBack = { navController.popBackStack() },
-            )
+            if (featureId == FeatureCatalog.Commuter.CHATBOT) {
+                MoveBotChatScreen(
+                    onBack = { navController.popBackStack() },
+                    isDarkTheme = isDarkTheme,
+                    onToggleTheme = onToggleTheme,
+                )
+            } else {
+                FeaturePlaceholderScreen(
+                    featureId = featureId,
+                    onBack = { navController.popBackStack() },
+                    isDarkTheme = isDarkTheme,
+                    onToggleTheme = onToggleTheme,
+                )
+            }
         }
         composable(HomeDestinations.ROLE_SWITCHER) {
             RoleDemoScreen(

@@ -1,5 +1,8 @@
 package com.example.smartmoveiiui.ui.placeholder
 
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -10,6 +13,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +48,8 @@ import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.NotificationsActive
 import androidx.compose.material.icons.outlined.Route
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Star
@@ -57,9 +63,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -78,11 +87,14 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.smartmoveiiui.R
+import com.example.smartmoveiiui.data.DynamicRow
+import com.example.smartmoveiiui.data.SmartMoveRepository
 import com.example.smartmoveiiui.navigation.FeatureCatalog
 import com.example.smartmoveiiui.ui.theme.AccentMint
 import com.example.smartmoveiiui.ui.theme.CardDark
@@ -98,25 +110,58 @@ import kotlinx.coroutines.delay
 
 private data class DetailRow(val title: String, val subtitle: String, val meta: String, val icon: ImageVector, val tone: Color)
 
+private fun DynamicRow.toDetailRow(): DetailRow {
+    val icon = when (type) {
+        "announcement" -> Icons.Outlined.Campaign
+        "query" -> Icons.Outlined.Forum
+        "notification" -> Icons.Outlined.NotificationsActive
+        "favorite" -> Icons.Outlined.Star
+        "feedback" -> Icons.Outlined.CheckCircle
+        "bus", "tracking" -> Icons.Outlined.DirectionsBus
+        "route" -> Icons.Outlined.Route
+        "schedule" -> Icons.Outlined.Schedule
+        "audit" -> Icons.Outlined.Analytics
+        else -> Icons.Outlined.CheckCircle
+    }
+    val tone = when {
+        meta.contains("delay", ignoreCase = true) -> WarningAmber
+        meta.contains("weak", ignoreCase = true) -> DangerRed
+        meta.contains("open", ignoreCase = true) -> WarningAmber
+        meta.contains("new", ignoreCase = true) -> WarningAmber
+        type == "feedback" -> WarningAmber
+        else -> PrimaryGreen
+    }
+    return DetailRow(title, subtitle, meta, icon, tone)
+}
+
 @Composable
 fun FeaturePlaceholderScreen(
     featureId: String,
     onBack: () -> Unit,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val title = stringResource(id = FeatureCatalog.titleFor(featureId))
     val detail = remember(featureId) { featureDetail(featureId) }
+    var liveRows by remember(featureId) { mutableStateOf(emptyList<DetailRow>()) }
     var visible by remember { mutableStateOf(false) }
     LaunchedEffect(featureId) {
         visible = false
         delay(80)
         visible = true
     }
+    DisposableEffect(featureId) {
+        val registration = SmartMoveRepository.observeRows(featureId) { rows ->
+            liveRows = rows.map { it.toDetailRow() }
+        }
+        onDispose { registration?.remove() }
+    }
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(screenBrush())
+            .background(screenBrush(isDarkTheme))
     ) {
         DetailPattern()
         LazyColumn(
@@ -128,7 +173,12 @@ fun FeaturePlaceholderScreen(
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             item {
-                DetailTopBar(title = title, onBack = onBack)
+                DetailTopBar(
+                    title = title,
+                    onBack = onBack,
+                    isDarkTheme = isDarkTheme,
+                    onToggleTheme = onToggleTheme
+                )
             }
             item {
                 AnimatedVisibility(
@@ -145,7 +195,8 @@ fun FeaturePlaceholderScreen(
             }
             item { FeatureInteractionPanel(featureId) }
             item { SectionLabel("Realistic demo data", "HCI #6 recognition") }
-            items(detail.rows, key = { it.title }) { row ->
+            val rowsToShow = liveRows.ifEmpty { detail.rows }
+            items(rowsToShow, key = { it.title + it.meta }) { row ->
                 DetailInfoCard(row)
             }
             item {
@@ -158,7 +209,12 @@ fun FeaturePlaceholderScreen(
 }
 
 @Composable
-private fun DetailTopBar(title: String, onBack: () -> Unit) {
+private fun DetailTopBar(
+    title: String,
+    onBack: () -> Unit,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -170,7 +226,13 @@ private fun DetailTopBar(title: String, onBack: () -> Unit) {
         }
         Column(modifier = Modifier.weight(1f)) {
             Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-            Text("SmartMove IIUI module preview", style = MaterialTheme.typography.bodyMedium, color = secondaryText())
+            Text("Live data and actions", style = MaterialTheme.typography.bodyMedium, color = secondaryText(isDarkTheme))
+        }
+        IconButton(onClick = onToggleTheme) {
+            Icon(
+                if (isDarkTheme) Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
+                contentDescription = "Toggle theme"
+            )
         }
     }
 }
@@ -332,6 +394,8 @@ private fun FeatureInteractionPanel(featureId: String) {
         FeatureCatalog.Staff.POST_ANNOUNCEMENTS -> PostAnnouncementPanel()
         FeatureCatalog.Staff.ANNOUNCEMENT_HISTORY -> AnnouncementHistoryPanel()
         FeatureCatalog.Commuter.NOTIFICATION_SETTINGS -> NotificationTogglePanel()
+        FeatureCatalog.Commuter.NOTIFICATIONS -> NotificationInboxActionsPanel()
+        FeatureCatalog.Commuter.FAVORITES -> FavoriteActionsPanel()
         FeatureCatalog.Commuter.FEEDBACK -> FeedbackRatingPanel()
         FeatureCatalog.Admin.MANAGE_USERS -> UserRoleManagerPanel()
         FeatureCatalog.Admin.MANAGE_SCHEDULE -> ScheduleManagerPanel()
@@ -382,6 +446,18 @@ private fun ScheduleFilterPanel() {
 
 @Composable
 private fun QueryFormPanel() {
+    val context = LocalContext.current
+    var attachmentName by remember { mutableStateOf("") }
+    var attachmentPath by remember { mutableStateOf("") }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            SmartMoveRepository.uploadAttachment(uri, "query_attachments") { ok, name, result ->
+                attachmentName = name
+                attachmentPath = if (ok) result else ""
+                Toast.makeText(context, if (ok) "Attachment uploaded" else result, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     InteractionCard("Query form preview", "HCI #5 error prevention") {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
             FilterChipMock("Late bus", true, Modifier.weight(1f))
@@ -391,9 +467,22 @@ private fun QueryFormPanel() {
         Spacer(Modifier.height(12.dp))
         FormFieldMock("Route", "Rawalpindi Saddar - Bus 05")
         FormFieldMock("Message", "Bus has not reached Committee Chowk stop.")
-        AttachmentPickerMock("Attach proof", "Photo, PDF, or document - optional")
+        AttachmentPickerMock(
+            title = "Attach proof",
+            subtitle = attachmentName.ifBlank { "Photo, PDF, or document - optional" },
+            onClick = { launcher.launch("*/*") }
+        )
         Button(
-            onClick = {},
+            onClick = {
+                SmartMoveRepository.submitQuery(
+                    category = "Late bus",
+                    routeName = "Rawalpindi Saddar - Bus 05",
+                    description = "Bus has not reached Committee Chowk stop.",
+                    attachmentName = attachmentPath.ifBlank { attachmentName },
+                ) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(48.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
@@ -407,6 +496,7 @@ private fun QueryFormPanel() {
 
 @Composable
 private fun QueryQueuePanel() {
+    val context = LocalContext.current
     InteractionCard("Query queue", "HCI #1 status") {
         QueueRow("Q-1042", "Bus 05 late near Committee Chowk", "Open", WarningAmber)
         QueueRow("Q-1038", "Stop location clarification", "Replied", PrimaryGreen)
@@ -416,6 +506,19 @@ private fun QueryQueuePanel() {
             FilterChipMock("Open", true, Modifier.weight(1f))
             FilterChipMock("Assigned", false, Modifier.weight(1f))
             FilterChipMock("Closed", false, Modifier.weight(1f))
+        }
+        Spacer(Modifier.height(10.dp))
+        Button(
+            onClick = {
+                SmartMoveRepository.resolveLatestQuery { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(46.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+        ) {
+            Text("Mark latest query resolved")
         }
     }
 }
@@ -431,6 +534,18 @@ private fun AnnouncementInboxPanel() {
 
 @Composable
 private fun PostAnnouncementPanel() {
+    val context = LocalContext.current
+    var attachmentName by remember { mutableStateOf("") }
+    var attachmentPath by remember { mutableStateOf("") }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            SmartMoveRepository.uploadAttachment(uri, "announcement_attachments") { ok, name, result ->
+                attachmentName = name
+                attachmentPath = if (ok) result else ""
+                Toast.makeText(context, if (ok) "Attachment uploaded" else result, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     InteractionCard("Post announcement", "HCI #5 prevention") {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
             FilterChipMock("Delay", true, Modifier.weight(1f))
@@ -440,9 +555,23 @@ private fun PostAnnouncementPanel() {
         Spacer(Modifier.height(12.dp))
         FormFieldMock("Audience", "Favorite users of F-8, G-9, and G-10")
         FormFieldMock("Message", "Bus 07 will arrive 8 minutes late due to traffic.")
-        AttachmentPickerMock("Attach notice", "Optional PDF/image for official circular")
+        AttachmentPickerMock(
+            title = "Attach notice",
+            subtitle = attachmentName.ifBlank { "Optional PDF/image for official circular" },
+            onClick = { launcher.launch("*/*") }
+        )
         Button(
-            onClick = {},
+            onClick = {
+                SmartMoveRepository.publishAnnouncement(
+                    title = "Bus 07 delay",
+                    description = "Bus 07 will arrive 8 minutes late due to traffic.",
+                    audience = "Favorite users of F-8, G-9, and G-10",
+                    priority = "High",
+                    attachmentName = attachmentPath.ifBlank { attachmentName },
+                ) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(48.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
@@ -465,11 +594,26 @@ private fun AnnouncementHistoryPanel() {
 
 @Composable
 private fun ChatPreviewPanel() {
+    val context = LocalContext.current
+    var question by remember { mutableStateOf("Which bus goes to G-10?") }
+    var answer by remember { mutableStateOf("Bus 07 and Bus 03 cover G-10/F-10. Bus 07 arrives in 4 min.") }
     InteractionCard("MoveBot chat", "HCI #10 help") {
-        ChatBubble("Which bus goes to F-10?", fromUser = true)
-        ChatBubble("Bus 07 and Bus 03 cover G-10/F-10. Bus 07 arrives in 4 min.", fromUser = false)
-        ChatBubble("Show next female schedule.", fromUser = true)
-        ChatBubble("12:40 PM -> 02:30 PM. Friday special: 01:30 PM -> 03:20 PM.", fromUser = false)
+        ChatBubble(question, fromUser = true)
+        ChatBubble(answer, fromUser = false)
+        SmartTextField("Ask MoveBot", question) { question = it }
+        Button(
+            onClick = {
+                SmartMoveRepository.askMoveBot(question) {
+                    answer = it
+                    Toast.makeText(context, "MoveBot answered", Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+        ) {
+            Text("Ask MoveBot")
+        }
     }
 }
 
@@ -483,7 +627,74 @@ private fun NotificationTogglePanel() {
 }
 
 @Composable
+private fun NotificationInboxActionsPanel() {
+    val context = LocalContext.current
+    InteractionCard("Notification actions", "Simple controls") {
+        Text(
+            "Read delay, cancellation and GPS alerts here. Use the button after checking your updates.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        Spacer(Modifier.height(10.dp))
+        Button(
+            onClick = {
+                SmartMoveRepository.markNotificationsRead { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(46.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+        ) {
+            Text("Mark all as read")
+        }
+    }
+}
+
+@Composable
+private fun FavoriteActionsPanel() {
+    val context = LocalContext.current
+    InteractionCard("Favorite route", "One tap access") {
+        FormFieldMock("Saved route", "G-10 / F-10 - G-10 Markaz - Bus 07")
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    SmartMoveRepository.saveFavorite("G-10 / F-10", "G-10 Markaz", "Bus 07") { ok, message ->
+                        Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                    }
+                },
+                modifier = Modifier.weight(1f).height(46.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+            ) { Text("Save") }
+            Button(
+                onClick = {
+                    SmartMoveRepository.removeFavorite("G-10 / F-10", "G-10 Markaz") { ok, message ->
+                        Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                    }
+                },
+                modifier = Modifier.weight(1f).height(46.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = DangerRed),
+            ) { Text("Remove") }
+        }
+    }
+}
+
+@Composable
 private fun FeedbackRatingPanel() {
+    val context = LocalContext.current
+    var attachmentName by remember { mutableStateOf("") }
+    var attachmentPath by remember { mutableStateOf("") }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            SmartMoveRepository.uploadAttachment(uri, "feedback_attachments") { ok, name, result ->
+                attachmentName = name
+                attachmentPath = if (ok) result else ""
+                Toast.makeText(context, if (ok) "Attachment uploaded" else result, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     InteractionCard("Trip feedback", "HCI #9 recovery") {
         Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
             repeat(5) { index ->
@@ -498,23 +709,68 @@ private fun FeedbackRatingPanel() {
         }
         Spacer(Modifier.height(10.dp))
         FormFieldMock("Suggestion", "Add stop photo for first semester students.")
-        AttachmentPickerMock("Attach image", "Optional bus/stop photo")
+        AttachmentPickerMock(
+            title = "Attach image",
+            subtitle = attachmentName.ifBlank { "Optional bus/stop photo" },
+            onClick = { launcher.launch("image/*") }
+        )
+        Button(
+            onClick = {
+                SmartMoveRepository.submitFeedback(
+                    busNumber = "Bus 07",
+                    rating = 4.8,
+                    tags = listOf("On time", "Clean", "Safe"),
+                    comment = "Add stop photo for first semester students.",
+                    attachmentName = attachmentPath.ifBlank { attachmentName },
+                ) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+        ) {
+            Text("Submit feedback")
+        }
     }
 }
 
 @Composable
 private fun UserRoleManagerPanel() {
+    val context = LocalContext.current
+    var name by remember { mutableStateOf("Inshrah Binte Wasim") }
+    var email by remember { mutableStateOf("inshrah.bsse4518@iiu.edu.pk") }
+    var role by remember { mutableStateOf("COMMUTER") }
     InteractionCard("User role management", "HCI #4 consistency") {
         UserRoleRow("Inshrah Binte Wasim", "Student / Employee", "#085041", PrimaryGreen)
         UserRoleRow("Arshad Ali", "Transport Staff", "#27500A", Color(0xFF27500A))
         UserRoleRow("System Admin", "Administrator", "#173404", Color(0xFF173404))
         Spacer(Modifier.height(8.dp))
-        FormFieldMock("Pending approval", "name.bsse4518@iiu.edu.pk - verify IIUI domain")
+        SmartTextField("Name", name) { name = it }
+        SmartTextField("Email", email) { email = it }
+        SmartTextField("Role", role) { role = it.uppercase() }
+        CrudButtons(
+            onSave = {
+                SmartMoveRepository.upsertUser(name, email, role) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            onDelete = {
+                SmartMoveRepository.removeUser(email) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            }
+        )
     }
 }
 
 @Composable
 private fun ScheduleManagerPanel() {
+    val context = LocalContext.current
+    var routeName by remember { mutableStateOf("G-10 / F-10") }
+    var busNumber by remember { mutableStateOf("Bus 07") }
+    var morning by remember { mutableStateOf("06:00 AM -> 08:15 AM") }
+    var afternoon by remember { mutableStateOf("01:40 PM -> 03:30 PM") }
     InteractionCard("Schedule manager", "HCI #5 prevention") {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
             FilterChipMock("Male", true, Modifier.weight(1f))
@@ -522,20 +778,41 @@ private fun ScheduleManagerPanel() {
             FilterChipMock("Friday", true, Modifier.weight(1f))
         }
         Spacer(Modifier.height(12.dp))
-        FormFieldMock("Route", "G-10 / F-10")
-        FormFieldMock("Slot", "01:40 PM -> 03:30 PM")
+        SmartTextField("Route", routeName) { routeName = it }
+        SmartTextField("Bus", busNumber) { busNumber = it }
+        SmartTextField("Morning slot", morning) { morning = it }
+        SmartTextField("Afternoon slot", afternoon) { afternoon = it }
         FormFieldMock("Validation", "Prevents overlapping bus assignments")
+        CrudButtons(
+            onSave = {
+                SmartMoveRepository.upsertSchedule(
+                    routeName,
+                    busNumber,
+                    mapOf("Morning" to morning, "Afternoon" to afternoon)
+                ) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            onDelete = {
+                SmartMoveRepository.removeSchedule(routeName, busNumber) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            }
+        )
     }
 }
 
 @Composable
 private fun ReportsMiniChartPanel() {
+    val context = LocalContext.current
     InteractionCard("Analytics snapshot", "HCI #1 status") {
         MiniBar("On-time trips", 0.82f, PrimaryGreen)
         MiniBar("Resolved queries", 0.74f, AccentMint)
         MiniBar("Delay risk", 0.38f, WarningAmber)
         Spacer(Modifier.height(8.dp))
-        AttachmentPickerMock("Export report", "PDF/CSV export prepared for admin")
+        AttachmentPickerMock("Export report", "PDF/CSV export prepared for admin") {
+            Toast.makeText(context, "Report export queued for PDF/CSV", Toast.LENGTH_SHORT).show()
+        }
     }
 }
 
@@ -602,34 +879,96 @@ private fun UserRoleRow(name: String, role: String, badge: String, tone: Color) 
 
 @Composable
 private fun RouteManagerPanel() {
+    val context = LocalContext.current
+    var attachmentName by remember { mutableStateOf("") }
+    var routeName by remember { mutableStateOf("G-10 / F-10") }
+    var stops by remember { mutableStateOf("G-10 Markaz, F-10 Gate, IIUI Gate 2") }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        if (uri != null) {
+            SmartMoveRepository.uploadAttachment(uri, "route_uploads") { ok, name, result ->
+                attachmentName = name
+                Toast.makeText(context, if (ok) "Route file uploaded" else result, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
     InteractionCard("Route manager", "HCI #4 standards") {
-        FormFieldMock("Route name", "G-10 / F-10")
-        FormFieldMock("Stops", "G-10 Markaz, F-10 Gate, IIUI Gate 2")
-        AttachmentPickerMock("Upload stop list", "Optional CSV/PDF route sheet")
+        SmartTextField("Route name", routeName) { routeName = it }
+        SmartTextField("Stops CSV", stops) { stops = it }
+        AttachmentPickerMock(
+            title = "Upload stop list",
+            subtitle = attachmentName.ifBlank { "Optional CSV/PDF route sheet" },
+            onClick = { launcher.launch("*/*") }
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
             FilterChipMock("Active", true, Modifier.weight(1f))
             FilterChipMock("Peak", true, Modifier.weight(1f))
             FilterChipMock("Cached", true, Modifier.weight(1f))
+        }
+        Button(
+            onClick = {
+                SmartMoveRepository.upsertRoute(routeName, stops) { ok, message ->
+                    Toast.makeText(context, if (ok) "$message ${attachmentName.ifBlank { "" }}" else message, Toast.LENGTH_SHORT).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(46.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+        ) {
+            Text("Save route")
+        }
+        Button(
+            onClick = {
+                SmartMoveRepository.removeRoute(routeName) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(46.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = DangerRed),
+        ) {
+            Text("Remove route")
         }
     }
 }
 
 @Composable
 private fun FleetHealthPanel() {
+    val context = LocalContext.current
+    var busNumber by remember { mutableStateOf("Bus 07") }
+    var capacity by remember { mutableStateOf("52") }
+    var driver by remember { mutableStateOf("Arshad Ali") }
+    var status by remember { mutableStateOf("Active") }
     InteractionCard("Fleet health", "HCI #1 status") {
         MiniBar("Bus 07 GPS", 0.94f, PrimaryGreen)
         MiniBar("Bus 11 traffic", 0.58f, WarningAmber)
         MiniBar("Bus 14 signal", 0.32f, DangerRed)
+        SmartTextField("Bus number", busNumber) { busNumber = it }
+        SmartTextField("Capacity", capacity) { capacity = it.filter(Char::isDigit) }
+        SmartTextField("Driver", driver) { driver = it }
+        SmartTextField("Status", status) { status = it }
+        CrudButtons(
+            onSave = {
+                SmartMoveRepository.upsertBus(busNumber, capacity.toIntOrNull() ?: 0, driver, status) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            },
+            onDelete = {
+                SmartMoveRepository.removeBus(busNumber) { ok, message ->
+                    Toast.makeText(context, message, if (ok) Toast.LENGTH_SHORT else Toast.LENGTH_LONG).show()
+                }
+            }
+        )
     }
 }
 
 @Composable
-private fun AttachmentPickerMock(title: String, subtitle: String) {
+private fun AttachmentPickerMock(title: String, subtitle: String, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
             .clip(RoundedCornerShape(18.dp))
+            .clickable(onClick = onClick)
             .background(PrimaryGreen.copy(alpha = 0.08f))
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -650,6 +989,45 @@ private fun AttachmentPickerMock(title: String, subtitle: String) {
         }
         Surface(shape = RoundedCornerShape(50), color = PrimaryGreen, contentColor = Color.White) {
             Text("Upload", modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp), style = MaterialTheme.typography.labelLarge)
+        }
+    }
+}
+
+@Composable
+private fun SmartTextField(label: String, value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+        label = { Text(label) },
+        singleLine = false,
+        shape = RoundedCornerShape(16.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = PrimaryGreen,
+            focusedLabelColor = PrimaryGreen,
+            cursorColor = PrimaryGreen,
+        )
+    )
+}
+
+@Composable
+private fun CrudButtons(onSave: () -> Unit, onDelete: () -> Unit) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = onSave,
+            modifier = Modifier.weight(1f).height(46.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+        ) {
+            Text("Save / update")
+        }
+        Button(
+            onClick = onDelete,
+            modifier = Modifier.weight(1f).height(46.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = DangerRed),
+        ) {
+            Text("Remove")
         }
     }
 }
@@ -920,18 +1298,18 @@ private fun DetailPattern() {
 }
 
 @Composable
-private fun screenBrush(): Brush = Brush.verticalGradient(
+private fun screenBrush(isDark: Boolean): Brush = Brush.verticalGradient(
     listOf(
-        if (isSystemInDarkTheme()) Color(0xFF071411) else Color(0xFFF7FFFE),
-        if (isSystemInDarkTheme()) Color(0xFF0D201C) else Color(0xFFE1F5EE),
+        if (isDark) Color(0xFF071411) else Color(0xFFF7FFFE),
+        if (isDark) Color(0xFF0D201C) else Color(0xFFE1F5EE),
     )
 )
 
 @Composable
-private fun cardColor(): Color = if (isSystemInDarkTheme()) CardDark else CardLight.copy(alpha = 0.72f)
+private fun cardColor(isDark: Boolean = isSystemInDarkTheme()): Color = if (isDark) CardDark else CardLight.copy(alpha = 0.72f)
 
 @Composable
-private fun secondaryText(): Color = if (isSystemInDarkTheme()) TextSecondaryDark else TextSecondaryLight
+private fun secondaryText(isDark: Boolean = isSystemInDarkTheme()): Color = if (isDark) TextSecondaryDark else TextSecondaryLight
 
 private data class FeatureDetail(
     val icon: ImageVector,

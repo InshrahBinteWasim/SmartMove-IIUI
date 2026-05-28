@@ -46,12 +46,15 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SmartToy
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -98,23 +101,20 @@ private data class DashboardStat(val label: String, val value: String, val icon:
 
 @Composable
 fun CommuterHomeScreen(
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     onNavigateToFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val tiles = listOf(
         HomeTile(FeatureCatalog.Commuter.LIVE_TRACKING, Icons.Outlined.DirectionsBus),
-        HomeTile(FeatureCatalog.Commuter.ROUTE_DETAIL, Icons.Outlined.Route),
         HomeTile(FeatureCatalog.Commuter.VIEW_SCHEDULE, Icons.Outlined.CalendarMonth),
-        HomeTile(FeatureCatalog.Commuter.SCHEDULE_DETAIL, Icons.Outlined.Schedule),
         HomeTile(FeatureCatalog.Commuter.CHATBOT, Icons.Outlined.SmartToy),
         HomeTile(FeatureCatalog.Commuter.SUBMIT_QUERY, Icons.Outlined.MailOutline),
         HomeTile(FeatureCatalog.Commuter.MY_QUERIES, Icons.Outlined.Forum),
-        HomeTile(FeatureCatalog.Commuter.ANNOUNCEMENTS, Icons.Outlined.Campaign),
         HomeTile(FeatureCatalog.Commuter.NOTIFICATIONS, Icons.Outlined.NotificationsActive),
-        HomeTile(FeatureCatalog.Commuter.NOTIFICATION_SETTINGS, Icons.Outlined.Settings),
+        HomeTile(FeatureCatalog.Commuter.ANNOUNCEMENTS, Icons.Outlined.Campaign),
         HomeTile(FeatureCatalog.Commuter.FAVORITES, Icons.Outlined.Star),
-        HomeTile(FeatureCatalog.Commuter.PROFILE_SETTINGS, Icons.Outlined.Person),
-        HomeTile(FeatureCatalog.Commuter.FEEDBACK, Icons.Outlined.CheckCircle),
         HomeTile(FeatureCatalog.Commuter.ROLE_SWITCHER, Icons.Outlined.Group),
     )
     PremiumHomeScaffold(
@@ -134,12 +134,16 @@ fun CommuterHomeScreen(
         ),
         tiles = tiles,
         onNavigateToFeature = onNavigateToFeature,
+        isDarkTheme = isDarkTheme,
+        onToggleTheme = onToggleTheme,
         modifier = modifier,
     )
 }
 
 @Composable
 fun StaffHomeScreen(
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     onNavigateToFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -168,12 +172,16 @@ fun StaffHomeScreen(
         ),
         tiles = tiles,
         onNavigateToFeature = onNavigateToFeature,
+        isDarkTheme = isDarkTheme,
+        onToggleTheme = onToggleTheme,
         modifier = modifier,
     )
 }
 
 @Composable
 fun AdminHomeScreen(
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     onNavigateToFeature: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -203,6 +211,8 @@ fun AdminHomeScreen(
         ),
         tiles = tiles,
         onNavigateToFeature = onNavigateToFeature,
+        isDarkTheme = isDarkTheme,
+        onToggleTheme = onToggleTheme,
         modifier = modifier,
     )
 }
@@ -217,6 +227,8 @@ private fun PremiumHomeScaffold(
     routes: List<RouteEta>,
     tiles: List<HomeTile>,
     onNavigateToFeature: (String) -> Unit,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var contentVisible by remember { mutableStateOf(false) }
@@ -245,7 +257,12 @@ private fun PremiumHomeScaffold(
                     visible = contentVisible,
                     enter = fadeIn(tween(500)) + slideInVertically { -it / 4 },
                 ) {
-                    HomeTopBar(roleTitle = roleTitle, greeting = greeting)
+                    HomeTopBar(
+                        roleTitle = roleTitle,
+                        greeting = greeting,
+                        isDarkTheme = isDarkTheme,
+                        onToggleTheme = onToggleTheme
+                    )
                 }
             }
             item {
@@ -262,14 +279,12 @@ private fun PremiumHomeScaffold(
             }
             item { StatStrip(stats = stats) }
             item {
-                SectionTitle("Live routes", "HCI #1 visibility of system status")
+                SectionTitle("Live routes", "Updated now")
             }
             items(routes, key = { it.route + it.bus }) { route ->
                 RouteEtaCard(route)
             }
-            item {
-                SectionTitle("Quick actions", "HCI #7 flexibility and efficiency")
-            }
+            item { SectionTitle("What do you need?", "Quick actions") }
             items(tiles, key = { it.featureId }) { tile ->
                 FeatureEntryCard(
                     title = stringResource(id = FeatureCatalog.titleFor(tile.featureId)),
@@ -293,7 +308,12 @@ private fun PremiumHomeScaffold(
 }
 
 @Composable
-private fun HomeTopBar(roleTitle: String, greeting: String) {
+private fun HomeTopBar(
+    roleTitle: String,
+    greeting: String,
+    isDarkTheme: Boolean,
+    onToggleTheme: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -312,14 +332,23 @@ private fun HomeTopBar(roleTitle: String, greeting: String) {
                 color = secondaryText(),
             )
         }
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(PrimaryGreen),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text("IIUI", color = Color.White, style = MaterialTheme.typography.labelLarge)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onToggleTheme) {
+                Icon(
+                    imageVector = if (isDarkTheme) Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
+                    contentDescription = "Change theme",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(PrimaryGreen),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text("IIUI", color = Color.White, style = MaterialTheme.typography.labelLarge)
+            }
         }
     }
 }

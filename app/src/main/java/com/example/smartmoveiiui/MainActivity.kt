@@ -5,9 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.example.smartmoveiiui.model.AppRole
 import com.example.smartmoveiiui.ui.main.SmartMoveNavHost
 import com.example.smartmoveiiui.ui.theme.SmartMoveIIUITheme
+import com.example.smartmoveiiui.ui.theme.ThemePreference
 
 class MainActivity : ComponentActivity() {
 
@@ -22,8 +27,16 @@ class MainActivity : ComponentActivity() {
         val role = AppRole.fromIntentExtra(intent.getStringExtra(AppRole.EXTRA_NAME))
 
         setContent {
-            SmartMoveIIUITheme {
-                SmartMoveNavHost(appRole = role)
+            var darkTheme by remember { mutableStateOf(ThemePreference.isDark(this)) }
+            SmartMoveIIUITheme(darkTheme = darkTheme) {
+                SmartMoveNavHost(
+                    appRole = role,
+                    isDarkTheme = darkTheme,
+                    onToggleTheme = {
+                        darkTheme = !darkTheme
+                        ThemePreference.setDark(this, darkTheme)
+                    }
+                )
             }
         }
     }

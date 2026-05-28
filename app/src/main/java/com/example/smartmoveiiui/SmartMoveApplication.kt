@@ -1,6 +1,7 @@
 package com.example.smartmoveiiui
 
 import android.app.Application
+import com.example.smartmoveiiui.util.DatabaseSeeder
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.PersistentCacheSettings
@@ -17,5 +18,7 @@ class SmartMoveApplication : Application() {
             .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
             .build()
         db.firestoreSettings = settings
+
+        DatabaseSeeder.seedDemoTransportData(this)
     }
 }

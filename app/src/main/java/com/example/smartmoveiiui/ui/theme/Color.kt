@@ -9,10 +9,10 @@ val AccentMint = Color(0xFF5DCAA5)
 
 val BackgroundLight = Color(0xFFF7FFFE)
 val SurfaceLight = Color(0xFFFFFFFF)
-val CardLight = Color(0xFFE1F5EE)
+val CardLight = Color(0xFFFFFFFF)
 
 val TextPrimaryLight = Color(0xFF10221C)
-val TextSecondaryLight = Color(0xFF52756B)
+val TextSecondaryLight = Color(0xFF3C5D53)
 
 val WarningAmber = Color(0xFFEF9F27)
 val DangerRed = Color(0xFFE24B4A)
